@@ -1,0 +1,4 @@
+.env
+/node_modules
+bigquery-jobs-datafusion-metrica.json
+credentials.js
