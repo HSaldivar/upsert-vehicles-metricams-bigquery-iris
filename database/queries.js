@@ -9,7 +9,7 @@ const clients = clientCredentials.map(e => {
         port: e.port
     });
 });
-let tabs = '', data = [];
+let tabs = '';
 async function executeCommand(client, command, values){
     try {
         const res = await client.query(command, values);
@@ -22,6 +22,7 @@ async function executeCommand(client, command, values){
 }
 
 async function multipleClients(query, values){
+    let data = [];
     console.log('ENVIANDO DATOS A UN TOTAL DE CLIENTES: ' + clients.length);
     for (let i = 0; i < clients.length; i++) {
         const client = clients[i];

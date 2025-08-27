@@ -4,11 +4,11 @@ const bigQuery = new BigQuery({
     projectId:  process.env.BQ_PROJECT_ID,
     keyFilename: 'bigquery-jobs-datafusion-metrica.json'
 });
-const chuckSize = parseInt(process.env.CHUNCK_SIZE || 50);
 
 
 async function sendData(data){
     try {
+        let chuckSize = parseInt(process.env.CHUNCK_SIZE || 50);
         let query = 'CALL ' + process.env.BQ_DATASET + '.vehicle_mdvr_data(@data)';
         let results = [];
         for (let i = 0; i < data.length; i+=chuckSize) {

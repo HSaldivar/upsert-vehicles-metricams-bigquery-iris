@@ -2,6 +2,8 @@ const database = require('./database/queries');
 const fs = require('fs');
 const commands = fs.readdirSync('./scripts').filter(e => { return e.includes('.sql'); });
 const bq_calls = require('./database/bq_calls');
+var cron = require('node-cron');
+
 async function start(){
     let data = [];
     //SE INICIA BUSCANDO SI EXISTEN COMANDOS QUE ENVIAR
@@ -29,4 +31,6 @@ async function start(){
     
 }
 
-start();
+cron.schedule(process.env.CRON_STRING || '*/30 * * * *', () => { 
+    start();
+});
