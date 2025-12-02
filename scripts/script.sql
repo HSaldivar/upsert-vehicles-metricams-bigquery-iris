@@ -3,7 +3,8 @@ SELECT
 	COALESCE(serial_mdvr, 'N/A') AS "SerialMdvr",
 	COALESCE(serial_go, 'N/A') AS "SerialGo",
 	COALESCE(serial_lytx, 'N/A') AS "SerialLytx",
-	COALESCE(COALESCE(TO_JSON(ARRAY_AGG(c)), '[]')) AS "Channels"
+	COALESCE(COALESCE(TO_JSON(ARRAY_AGG(c)), '[]')) AS "Channels",
+	f.name AS "Group"
 FROM
 (
 	SELECT
@@ -14,6 +15,10 @@ FROM
 	FROM vehicle_device
 	GROUP BY vehicle_id
 ) AS dt
+INNER JOIN vehicle AS v
+ON dt.vehicle_id = v.id
+INNER JOIN fleet AS f
+ON f.id = v.idfleet
 LEFT JOIN 
 (
 	SELECT c.idvehicle,
@@ -24,4 +29,4 @@ LEFT JOIN
 	ON c.camera_type_id = ct.camera_type_id
 ) AS c
 ON dt.vehicle_id = c.idvehicle
-GROUP BY serial_mdvr, serial_go, serial_lytx
+GROUP BY serial_mdvr, serial_go, serial_lytx, f.name;
